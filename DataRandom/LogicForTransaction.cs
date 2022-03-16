@@ -27,33 +27,42 @@ namespace DataRandom
 
             var accList = rep.GetAccountList();
 
-            for (int i = 0; i < 2000; i++)
+            for (int i = 0; i < 194000; i++)
             {
                 var randomNuber = rnd.Next(1, accList.Count);
                 var acc = accList[randomNuber];
 
                 DataRow dr = tbl.NewRow();
-                var type = rnd.Next(1,4);
-                var accountId = acc.Id;
+                int type = 0;
+
+                if (i != 20) 
+                {
+                     type = rnd.Next(1, 4);
+                }
+                else
+                {
+                     type = rnd.Next(1, 3);
+                }
+
                 var currency = acc.CurrencyType;
                 var date = helper.GetRandomDateTime();
-
 
                 if (type == 1)
                 {
                     amount = rnd.Next(0, 100000000);
                 }
-                if (type == 2)
+                else if (type == 2)
                 {
                     amount = rnd.Next(-100000000, 0);
                 }
-                if (type == 3)
+                else
                 {
                     int accountTo;
                     do
                     {
-                        accountTo = rnd.Next(1, accList.Count+1);
-                    } while (accountTo ==  acc.Id);
+                        accountTo = rnd.Next(1, accList.Count);
+                    } 
+                    while (accountTo ==  acc.Id);
 
                     amount = rnd.Next(0, 100000000);
 
@@ -76,16 +85,13 @@ namespace DataRandom
                 dr["Currency"] = currency;
 
                 tbl.Rows.Add(dr);
-
             }
 
-
-            string connection = "Data Source = (localdb)\\MSSQLLocalDB; Initial Catalog = MarvelousReportMicroService.DB; Integrated Security = True; Connect Timeout = 30; Encrypt = False; TrustServerCertificate = False; ApplicationIntent = ReadWrite; MultiSubnetFailover = False";
+            string connection = "Data Source = 80.78.240.16; Database=TransactionStore.DB;User Id = student; Password=qwe!23;";
             SqlConnection con = new SqlConnection(connection);
             SqlBulkCopy objbulk = new SqlBulkCopy(con);
 
-
-            objbulk.DestinationTableName = "Transaction";
+            objbulk.DestinationTableName = "[Transaction]";
             objbulk.ColumnMappings.Add("Id", "Id");
             objbulk.ColumnMappings.Add("Amount", "Amount");
             objbulk.ColumnMappings.Add("Type", "Type");
