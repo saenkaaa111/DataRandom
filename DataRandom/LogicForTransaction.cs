@@ -18,41 +18,26 @@ namespace DataRandom
             Random rnd = new Random();
             SqlParameter parameter = new SqlParameter();
             var amount = 0;
-            var accountIdFrom = 0;
             var currencyFrom = 0;
-            var day = 0;
+            var helper = new Helper();
             parameter.ParameterName = "@Datetime2";
             parameter.SqlDbType = SqlDbType.DateTime2;
 
+            var rep = new Repository();
 
-            for (int i = 0; i < 200; i++)
+            var accList = rep.GetAccountList();
+
+            for (int i = 0; i < 2000; i++)
             {
+                var randomNuber = rnd.Next(1, accList.Count);
+                var acc = accList[randomNuber];
+
                 DataRow dr = tbl.NewRow();
+                var type = rnd.Next(1,4);
+                var accountId = acc.Id;
+                var currency = acc.CurrencyType;
+                var date = helper.GetRandomDateTime();
 
-                var year = rnd.Next(2020, 2023);
-                var month = rnd.Next(1, 13);
-                if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12)
-                {
-                    day = rnd.Next(1, 32);
-                }
-                if (month == 4 || month == 6 || month == 9 || month == 11)
-                {
-                    day = rnd.Next(1, 31);
-                }
-                if (month == 2)
-                {
-                    day = rnd.Next(1, 30);
-                }
-
-                var hour = rnd.Next(1, 24);
-                var minute = rnd.Next(1, 60);
-                var second = rnd.Next(1, 60);
-                var millisecond = rnd.Next(1, 60);
-                var time = parameter.Value = DateTime.Parse($"{year}-{month}-{day} {hour}:{minute}:{second}.{millisecond}");
-
-                var type = rnd.Next(1, 4);
-                var accountId = rnd.Next(1, 1000);
-                var currency = rnd.Next(1, 114);
 
                 if (type == 1)
                 {
@@ -64,34 +49,30 @@ namespace DataRandom
                 }
                 if (type == 3)
                 {
+                    int accountTo;
                     do
                     {
-                        accountIdFrom = rnd.Next(1, 1000);
-                    } while (accountIdFrom == accountId);
-                    do
-                    {
-                        currencyFrom = rnd.Next(1, 114);
-                    } while (currencyFrom == currency);
+                        accountTo = rnd.Next(1, accList.Count+1);
+                    } while (accountTo ==  acc.Id);
 
+                    amount = rnd.Next(0, 100000000);
 
                     DataRow drt = tbl.NewRow();
                     drt["Id"] = i;
                     drt["Amount"] = rnd.Next(-100000000, 0);
                     drt["Type"] = type;
-                    drt["AccountId"] = accountIdFrom;
-                    drt["Date"] = time;
-                    drt["Currency"] = currencyFrom;
+                    drt["AccountId"] = accountTo;
+                    drt["Date"] = date;
+                    drt["Currency"] = accList[accountTo].CurrencyType;
                     tbl.Rows.Add(drt);
                     i++;
-                    amount = rnd.Next(0, 100000000);
                 }
-
 
                 dr["Id"] = i;
                 dr["Amount"] = amount;
                 dr["Type"] = type;
-                dr["AccountId"] = accountId;
-                dr["Date"] = time;
+                dr["AccountId"] = acc.Id;
+                dr["Date"] = date;
                 dr["Currency"] = currency;
 
                 tbl.Rows.Add(dr);
@@ -99,12 +80,12 @@ namespace DataRandom
             }
 
 
-            string connection = "Data Source=(local);Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False;Database=TransactionStore;";
+            string connection = "Data Source = (localdb)\\MSSQLLocalDB; Initial Catalog = MarvelousReportMicroService.DB; Integrated Security = True; Connect Timeout = 30; Encrypt = False; TrustServerCertificate = False; ApplicationIntent = ReadWrite; MultiSubnetFailover = False";
             SqlConnection con = new SqlConnection(connection);
             SqlBulkCopy objbulk = new SqlBulkCopy(con);
 
 
-            objbulk.DestinationTableName = "TransactionStore";
+            objbulk.DestinationTableName = "Transaction";
             objbulk.ColumnMappings.Add("Id", "Id");
             objbulk.ColumnMappings.Add("Amount", "Amount");
             objbulk.ColumnMappings.Add("Type", "Type");

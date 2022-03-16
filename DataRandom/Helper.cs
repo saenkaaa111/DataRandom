@@ -38,7 +38,7 @@ namespace DataRandom
             }
             if (month == 2)
             {
-                day = rnd.Next(1, 30);
+                day = rnd.Next(1, 29);
             }
 
             var hour = rnd.Next(1, 24);
