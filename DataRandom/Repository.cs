@@ -8,7 +8,7 @@ namespace DataRandom
     {
         public string connection = "Data Source = 80.78.240.16; Database=CRM.Db;User Id = student; Password=qwe!23;";
 
-        public List<Lead> GetList()
+        public List<Lead> GetLeadtList()
         {
             using IDbConnection connectionString = new SqlConnection(connection);
             var listLeads = connectionString.Query<Lead>(
@@ -18,5 +18,17 @@ namespace DataRandom
 
             return listLeads;
         }
+
+        public List<Account> GetAccountList()
+        {
+            using IDbConnection connectionString = new SqlConnection(connection);
+            var listAccounts = connectionString.Query<Account>(
+                "dbo.Lead_SelectAll",
+                commandType: CommandType.StoredProcedure
+            ).ToList();
+
+            return listAccounts;
+        }
+
     }
 }

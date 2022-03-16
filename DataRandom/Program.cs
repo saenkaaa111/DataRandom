@@ -1,9 +1,9 @@
 ﻿using DataRandom;
 
-LogicForTransaction logicForTransaction = new LogicForTransaction();
-logicForTransaction.AddDbForTransaction();
+//LogicForTransaction logicForTransaction = new LogicForTransaction();
+//logicForTransaction.AddDbForTransaction();
 
-//LogicForAccount logicForAccount = new LogicForAccount();
-//logicForAccount.AddDbForAccount();
+LogicForAccount logicForAccount = new LogicForAccount();
+logicForAccount.AddDbForAccount();
 
 Console.WriteLine("Hello, World!");
