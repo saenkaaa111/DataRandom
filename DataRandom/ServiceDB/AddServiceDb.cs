@@ -3,28 +3,27 @@ using System.Data.SqlClient;
 
 namespace DataRandom
 {
-    public class LogicForAccount
+    public class AddServiceDb
     {
         public void AddDbForAccount()
         {
-            DataTable acc = new DataTable();
-            acc.Columns.Add(new DataColumn("Id", typeof(Int32)));
-            acc.Columns.Add(new DataColumn("Name", typeof(string)));
-            acc.Columns.Add(new DataColumn("CurrencyType", typeof(Int32)));
-            acc.Columns.Add(new DataColumn("LeadId", typeof(Int32)));
-            acc.Columns.Add(new DataColumn("LockDate", typeof(DateTime)));
-            acc.Columns.Add(new DataColumn("IsBlocked", typeof(bool)));
+            DataTable serviceToLead = new DataTable();
+            serviceToLead.Columns.Add(new DataColumn("Id", typeof(Int32)));
+            serviceToLead.Columns.Add(new DataColumn("Period", typeof(Int32)));
+            serviceToLead.Columns.Add(new DataColumn("Price", typeof(Int32)));
+            serviceToLead.Columns.Add(new DataColumn("Status", typeof(DateTime)));
+            serviceToLead.Columns.Add(new DataColumn("LeadId", typeof(Int32)));
+            serviceToLead.Columns.Add(new DataColumn("ServiceId", typeof(bool)));
 
 
             Random rnd = new Random();
             Repository rep = new Repository();
             Helper hel = new Helper();
-            var leads = rep.GetLeadList();
-            var accId = 1;
+            //var leads = rep.GetLeadList();
+            var serviceId = 1;
 
-            
 
-            var currencyId = new List<int> { 85, 107, 34, 52, 22, 102, 88 };
+            //var currencyId = new List<int> { 85, 107, 34, 52, 22, 102, 88 };
 
             foreach (var item in leads)
             {
