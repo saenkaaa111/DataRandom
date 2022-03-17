@@ -5,7 +5,7 @@ namespace DataRandom
 {
     public class ServiceDb
     {
-        public void AddDbForService()
+        public void AddServiceToLeadTable()
         {
             DataTable serviceToLead = new DataTable();
             serviceToLead.Columns.Add(new DataColumn("Id", typeof(Int32)));
@@ -31,6 +31,20 @@ namespace DataRandom
                 if (period == 1)
                 {
                     price = prices[0];
+                    serviceId = rnd.Next(1, 3);
+                }
+                else if (period == 2)
+                {
+                    price = prices[1];
+                }
+                else if (period == 3)
+                {
+                    randomPrice = rnd.Next(3, 5);
+                    price = prices[randomPrice];
+                }
+                else if (period == 4)
+                {
+                    price = prices[4];
                 }
 
                 if (i % 1600 == 0 && period != 1) // каждому 1600 лиду неактивную подписку
@@ -43,7 +57,6 @@ namespace DataRandom
 
                 DataRow dr = serviceToLead.NewRow();
 
-
                 dr["Id"] = serviceToLeadId + i;
                 dr["Period"] = period;
                 dr["Price"] = price;
@@ -53,6 +66,22 @@ namespace DataRandom
 
                 serviceToLead.Rows.Add(dr);
             }
+
+            string connection = "Data Source=(local);Initial Catalog=MarvelousService.DB;Integrated Security=True;";
+            SqlConnection con = new SqlConnection(connection);
+            SqlBulkCopy objbulk = new SqlBulkCopy(con);
+
+            objbulk.DestinationTableName = "[ServiceToLead]";
+            objbulk.ColumnMappings.Add("Id", "Id");
+            objbulk.ColumnMappings.Add("Period", "Period");
+            objbulk.ColumnMappings.Add("Price", "Price");
+            objbulk.ColumnMappings.Add("LeadId", "LeadId");
+            objbulk.ColumnMappings.Add("ServiceId", "ServiceId");
+            objbulk.ColumnMappings.Add("Status", "Status");
+
+            con.Open();
+            objbulk.WriteToServer(serviceToLead);
+            con.Close();
         }
     }
 }
