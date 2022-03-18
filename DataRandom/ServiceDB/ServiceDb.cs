@@ -20,34 +20,44 @@ namespace DataRandom
             int LeadId = 300200;
             List<int> prices = new List<int> { 1500, 3000, 5000, 7500, 10000 };
 
-            for (int i = 0; i < 200000; i++)
+            for (int i = 0; i < 100000; i++)
             {
                 int status = 1;
+                int typeId = rnd.Next(1, 3);
                 int randomPrice = rnd.Next(0, prices.Count);
                 int serviceId = rnd.Next(1, 6);
                 int price = prices[randomPrice];
                 int period = rnd.Next(1, 5);
 
-                if (period == 1)
+                if (period == 1 && typeId == 1)
                 {
                     price = prices[0];
                     serviceId = rnd.Next(1, 3);
                 }
-                else if (period == 2)
+                else if (period == 2 && typeId == 2)
                 {
                     price = prices[1];
+                    serviceId = rnd.Next(3, 6);
                 }
-                else if (period == 3)
+                else if (period == 3 && typeId == 2)
                 {
-                    randomPrice = rnd.Next(3, 5);
+                    randomPrice = rnd.Next(2, 4);
                     price = prices[randomPrice];
+                    serviceId = rnd.Next(3, 6);
                 }
-                else if (period == 4)
+                else if (period == 4 && typeId == 2)
                 {
                     price = prices[4];
+                    serviceId = rnd.Next(3, 6);
+                }
+                else
+                {
+                    period = 1;
+                    price = 1500;
+                    serviceId = rnd.Next(1, 2);
                 }
 
-                if (i % 1600 == 0 && period != 1) // каждому 1600 лиду неактивную подписку
+                if (i + 1 % 1600 == 0 && period != 1) // каждому 1600 лиду неактивную подписку
                 {
                     status = 2;
                     serviceId = rnd.Next(3, 6);
