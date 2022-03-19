@@ -26,7 +26,7 @@ namespace DataRandom
             parameter.ParameterName = "@Datetime2";
             parameter.SqlDbType = SqlDbType.DateTime2;
             Random rnd = new Random();
-            var year = rnd.Next(2000, 2023);
+            var year = rnd.Next(2018, 2023);
             var month = rnd.Next(1, 13);
             if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12)
             {
@@ -48,5 +48,44 @@ namespace DataRandom
             var time = parameter.Value = DateTime.Parse($"{year}-{month}-{day} {hour}:{minute}:{second}.{millisecond}");
             return time;
         }
+
+        public const string BaseCurrency = "USD";
+        public decimal ConvertCurrency(string currencyFrom, string currencyTo, decimal amount)
+        {
+            var rates = GetRates();
+
+            rates.TryGetValue($"{BaseCurrency}{currencyFrom}", out var currencyFromValue);
+            rates.TryGetValue($"{BaseCurrency}{currencyTo}", out var currencyToValue);
+            if (currencyFrom == BaseCurrency)
+                currencyFromValue = 1m;
+
+            if (currencyTo == BaseCurrency)
+                currencyToValue = 1m;
+
+            var convertAmount = decimal.Round(currencyToValue / currencyFromValue * amount, 2);
+
+            return convertAmount;
+        }
+
+        public Dictionary<string, decimal> GetRates()
+        {
+            return new Dictionary<string, decimal>
+            {
+                { "USDRUB", 105m },
+                { "USDEUR", 0.9m },
+                { "USDJPY", 118m },
+                { "USDCNY", 6m },
+                { "USDTRY", 14m },
+                { "USDRSD", 106m },
+                { "RUBUSD", 0.009m },
+                { "EURUSD", 1.11m },
+                { "JPYUSD", 0.008m },
+                { "CNYUSD", 0.16m },
+                { "TRYUSD", 0.068m },
+                { "RSDUSD", 2.65m },
+
+            };
+        }
     }
 }
+

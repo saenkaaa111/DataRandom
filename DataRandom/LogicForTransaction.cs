@@ -27,33 +27,34 @@ namespace DataRandom
 
             var accList = rep.GetAccountList();
 
-            for (int i = 0; i < 194000; i++)
+            for (int i = 0; i < 100000; i++)
             {
                 var randomNuber = rnd.Next(1, accList.Count);
                 var acc = accList[randomNuber];
 
                 DataRow dr = tbl.NewRow();
-                int type = 0;
+                int type = rnd.Next(1, 4); 
 
-                if (i != 20) 
-                {
-                     type = rnd.Next(1, 4);
-                }
-                else
-                {
-                     type = rnd.Next(1, 3);
-                }
+                //if (i != 20)
+                //{
+                //    type = rnd.Next(1, 4);
+                //}
+                //else
+                //{
+                //    type = rnd.Next(1, 3);
+                //}
 
                 var currency = acc.CurrencyType;
                 var date = helper.GetRandomDateTime();
-
+                var currencyType = 0;
+                var negativeAmount = rnd.Next(-10000, 0);
                 if (type == 1)
                 {
-                    amount = rnd.Next(0, 100000000);
+                    amount = rnd.Next(0, 10000);
                 }
                 else if (type == 2)
                 {
-                    amount = rnd.Next(-100000000, 0);
+                    amount = rnd.Next(-10000, 0);
                 }
                 else
                 {
@@ -61,24 +62,84 @@ namespace DataRandom
                     do
                     {
                         accountTo = rnd.Next(1, accList.Count);
+                        currencyType = accList[accountTo].CurrencyType;
                     } 
-                    while (accountTo ==  acc.Id);
+                    while (accountTo ==  acc.Id || currencyType == currency);
 
-                    amount = rnd.Next(0, 100000000);
+                    amount = rnd.Next(0, 10000);
 
                     DataRow drt = tbl.NewRow();
                     drt["Id"] = i;
-                    drt["Amount"] = rnd.Next(-100000000, 0);
+                    drt["Amount"] = negativeAmount;
                     drt["Type"] = type;
                     drt["AccountId"] = accountTo;
                     drt["Date"] = date;
-                    drt["Currency"] = accList[accountTo].CurrencyType;
+                    drt["Currency"] = currencyType;
                     tbl.Rows.Add(drt);
                     i++;
                 }
 
+                var currencyTypeString = "";
+                switch (currencyType)
+                {
+                    case 107:
+                        currencyTypeString = "USD";
+                        break;
+                    case 85:
+                        currencyTypeString = "RUB";
+                        break;
+                    case 34:
+                        currencyTypeString = "EUR";
+                        break;
+                    case 52:
+                        currencyTypeString = "JPY";
+                        break;
+                    case 22:
+                        currencyTypeString = "CNY";
+                        break;
+                    case 88:
+                        currencyTypeString = "RSD";
+                        break;
+                    case 102:
+                        currencyTypeString = "TRY";
+                        break;
+                }
+
+                var currencyString = "";
+                switch (currency)
+                {
+                    case 107:
+                        currencyString = "USD";
+                        break;
+                    case 85:
+                        currencyString = "RUB";
+                        break;
+                    case 34:
+                        currencyString = "EUR";
+                        break;
+                    case 52:
+                        currencyString = "JPY";
+                        break;
+                    case 22:
+                        currencyString = "CNY";
+                        break;
+                    case 88:
+                        currencyString = "RSD";
+                        break;
+                    case 102:
+                        currencyString = "TRY";
+                        break;
+                }
+
                 dr["Id"] = i;
-                dr["Amount"] = amount;
+                if (type == 3)
+                {
+                    dr["Amount"] = helper.ConvertCurrency(currencyTypeString, currencyString, Math.Abs(negativeAmount));
+
+                }
+                else
+                    dr["Amount"] = amount;
+
                 dr["Type"] = type;
                 dr["AccountId"] = acc.Id;
                 dr["Date"] = date;
@@ -102,8 +163,6 @@ namespace DataRandom
             con.Open();
             objbulk.WriteToServer(tbl);
             con.Close();
-
-
         }
     }
 }
