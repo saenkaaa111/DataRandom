@@ -30,5 +30,16 @@ namespace DataRandom
             return listAccounts;
         }
 
+        public List<int> GetListOfLeadIdsInAccountTable()
+        {
+            using IDbConnection connectionString = new SqlConnection(connection);
+            var listAccounts = connectionString.Query<Account>(
+                "dbo.Account_SelectAll",
+                commandType: CommandType.StoredProcedure
+            ).ToList();
+
+            return listAccounts;
+        }
+
     }
 }
