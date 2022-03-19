@@ -34,6 +34,7 @@ namespace DataRandom
                 List<int> distinctRandomCurrencyTypeList = new List<int>();
                 if (item.Role == 2)
                 {
+                    randomCurrencyTypeList.Add(0)
                     var eee = rnd.Next(1, 8);
                     for (int i = 0; i < eee; i++)
                     {
@@ -43,6 +44,7 @@ namespace DataRandom
                 }
                 else if (item.Role == 3)
                 {
+                    randomCurrencyTypeList.Add(0)
                     var eee = rnd.Next(1, 3);
                     for (int i = 0; i < eee; i++)
                     {
@@ -59,7 +61,7 @@ namespace DataRandom
                     accR["Name"] = NameGenerator.GenerateFirstName() + " " + NameGenerator.GenerateLastName();
                     accR["CurrencyType"] = currencyId[distinctRandomCurrencyTypeList[i]];
                     accR["LeadId"] = item.Id;
-                    if (rnd.Next(1, 100) == 1)
+                    if (rnd.Next(1, 100) == 1 && distinctRandomCurrencyTypeList[i] != 0)
                     {
                         accR["LockDate"] = hel.GetRandomDateTime();
                         accR["IsBlocked"] = true;
