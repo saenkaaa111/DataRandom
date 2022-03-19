@@ -34,7 +34,7 @@ namespace DataRandom
                 List<int> distinctRandomCurrencyTypeList = new List<int>();
                 if (item.Role == 2)
                 {
-                    randomCurrencyTypeList.Add(0)
+                    randomCurrencyTypeList.Add(0);
                     var eee = rnd.Next(1, 8);
                     for (int i = 0; i < eee; i++)
                     {
@@ -44,7 +44,7 @@ namespace DataRandom
                 }
                 else if (item.Role == 3)
                 {
-                    randomCurrencyTypeList.Add(0)
+                    randomCurrencyTypeList.Add(0);
                     var eee = rnd.Next(1, 3);
                     for (int i = 0; i < eee; i++)
                     {
@@ -93,8 +93,6 @@ namespace DataRandom
             con.Open();
             objbulk.WriteToServer(acc);
             con.Close();
-
-
         }
 
 

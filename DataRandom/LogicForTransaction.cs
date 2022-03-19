@@ -27,23 +27,13 @@ namespace DataRandom
 
             var accList = rep.GetAccountList();
 
-            for (int i = 0; i < 100000; i++)
+            for (int i = 0; i < 900000; i++)
             {
                 var randomNuber = rnd.Next(1, accList.Count);
                 var acc = accList[randomNuber];
 
                 DataRow dr = tbl.NewRow();
                 int type = rnd.Next(1, 4); 
-
-                //if (i != 20)
-                //{
-                //    type = rnd.Next(1, 4);
-                //}
-                //else
-                //{
-                //    type = rnd.Next(1, 3);
-                //}
-
                 var currency = acc.CurrencyType;
                 var date = helper.GetRandomDateTime();
                 var currencyType = 0;

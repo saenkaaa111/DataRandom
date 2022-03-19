@@ -23,7 +23,7 @@ namespace DataRandom
         {
             using IDbConnection connectionString = new SqlConnection(connection);
             var listAccounts = connectionString.Query<Account>(
-                "SELECT TOP (3000) * from dbo.[Account]"
+                "SELECT * FROM Account WHERE id BETWEEN 9500000 AND 10000000"
             ).ToList();
 
             return listAccounts;
