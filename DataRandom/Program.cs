@@ -9,8 +9,8 @@
 //LogicForServiceDb logicfroServiceDb = new LogicForServiceDb();
 //logicfroServiceDb.AddServiceToLeadTable();
 
-//LogicForServiceTransaction logicForServiceTransaction = new LogicForServiceTransaction();
-//logicForServiceTransaction.AddDbForTransaction();
+LogicForServiceTransaction logicForServiceTransaction = new LogicForServiceTransaction();
+logicForServiceTransaction.AddDbForTransaction();
 
 Console.WriteLine("Hello, World!");
 Console.ReadKey();

@@ -96,7 +96,7 @@ namespace DataRandom
                 }
             }
 
-            string connection = "Data Source=(local);Initial Catalog=TransactionStore.DB;Integrated Security=True;";
+            string connection = "Data Source = 80.78.240.16; Database=TransactionStore.DB;User Id = student; Password=qwe!23;";
             SqlConnection con = new SqlConnection(connection);
             SqlBulkCopy objbulk = new SqlBulkCopy(con);
 

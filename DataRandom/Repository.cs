@@ -34,7 +34,7 @@ namespace DataRandom
         {
             using IDbConnection connectionString = new SqlConnection(connection);
             var leadIds = connectionString.Query<AccountWithLeadId>(
-                "SELECT TOP(30000) Id, LeadId FROM dbo.[Account] WHERE CurrencyType = 85"
+                "SELECT TOP(800000) Id, LeadId FROM dbo.[Account] WHERE CurrencyType = 85"
             ).ToList();
 
             return leadIds;

@@ -7,7 +7,7 @@ namespace DataRandom.ServiceDB
 {
     public class ServiceRepo
     {
-        public string connection = "Data Source=(local);Initial Catalog=MarvelousService.DB;Integrated Security=True;";
+        public string connection = "Data Source=80.78.240.16;Initial Catalog=MarvelousService.DB;User ID = student; Password = qwe!23";
 
         public List<ServiceToLead> GetServiceToLeadList()
         {

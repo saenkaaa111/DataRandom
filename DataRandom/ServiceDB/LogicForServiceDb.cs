@@ -78,7 +78,7 @@ namespace DataRandom
                 serviceToLead.Rows.Add(dr);
             }
 
-            string connection = "Data Source=(local);Initial Catalog=MarvelousService.DB;Integrated Security=True;";
+            string connection = "Data Source=80.78.240.16;Initial Catalog=MarvelousService.DB;User ID = student; Password = qwe!23";
             SqlConnection con = new SqlConnection(connection);
             SqlBulkCopy objbulk = new SqlBulkCopy(con);
 
