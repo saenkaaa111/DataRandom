@@ -23,8 +23,7 @@ namespace DataRandom
         {
             using IDbConnection connectionString = new SqlConnection(connection);
             var listAccounts = connectionString.Query<Account>(
-                "dbo.Account_SelectAll",
-                commandType: CommandType.StoredProcedure
+                "SELECT TOP (3000) * from dbo.[Account]"
             ).ToList();
 
             return listAccounts;
