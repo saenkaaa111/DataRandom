@@ -5,8 +5,6 @@ namespace DataRandom
 {
     public class LogicForAccount
     {
-
-
         public void AddDbForAccount()
         {
             DataTable acc = new DataTable();
@@ -21,7 +19,7 @@ namespace DataRandom
             Random rnd = new Random();
             Repository rep = new Repository();
             Helper hel = new Helper();
-            var leads = rep.GetLeadtList();
+            var leads = rep.GetLeadList();
             var accId = 1;
 
             
@@ -94,7 +92,5 @@ namespace DataRandom
             objbulk.WriteToServer(acc);
             con.Close();
         }
-
-
     }
 }
