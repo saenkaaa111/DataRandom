@@ -26,7 +26,7 @@ namespace DataRandom
             parameter.ParameterName = "@Datetime2";
             parameter.SqlDbType = SqlDbType.DateTime2;
             Random rnd = new Random();
-            var year = rnd.Next(2018, 2023);
+            var year = rnd.Next(2010, 2015);
             var month = rnd.Next(1, 13);
             if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12)
             {

@@ -1,6 +1,7 @@
 ﻿using System.Data;
 using System.Data.SqlClient;
 using Dapper;
+using DataRandom.ServiceDB;
 
 namespace DataRandom
 {
@@ -29,16 +30,16 @@ namespace DataRandom
             return listAccounts;
         }
 
-        public List<int> GetListOfLeadIdsInAccountTable()
+        public List<AccountWithLeadId> GetRubAccountsWithLeadIds()
         {
             using IDbConnection connectionString = new SqlConnection(connection);
-            var listAccounts = connectionString.Query<Account>(
-                "dbo.Account_SelectAll",
-                commandType: CommandType.StoredProcedure
+            var leadIds = connectionString.Query<AccountWithLeadId>(
+                "SELECT TOP(30000) Id, LeadId FROM dbo.[Account] WHERE CurrencyType = 85"
             ).ToList();
 
-            return listAccounts;
+            return leadIds;
         }
+
 
     }
 }

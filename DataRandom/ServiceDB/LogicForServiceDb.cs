@@ -3,7 +3,7 @@ using System.Data.SqlClient;
 
 namespace DataRandom
 {
-    public class ServiceDb
+    public class LogicForServiceDb
     {
         public void AddServiceToLeadTable()
         {
@@ -16,11 +16,12 @@ namespace DataRandom
             serviceToLead.Columns.Add(new DataColumn("ServiceId", typeof(Int32)));
 
             Random rnd = new Random();
-            int serviceToLeadId = 1;
-            int LeadId = 300200;
+            Repository CrmRepo = new Repository();
+            var rubAccounts = CrmRepo.GetRubAccountsWithLeadIds(); 
+
             List<int> prices = new List<int> { 1500, 3000, 5000, 7500, 10000 };
 
-            for (int i = 0; i < 100000; i++)
+            for (int i = 0; i < rubAccounts.Count; i++)
             {
                 int status = 1;
                 int typeId = rnd.Next(1, 3);
@@ -57,7 +58,7 @@ namespace DataRandom
                     serviceId = rnd.Next(1, 2);
                 }
 
-                if (i + 1 % 1600 == 0 && period != 1) // каждому 1600 лиду неактивную подписку
+                if ((i + 1) % 1600 == 0 && period != 1) // 500 лидов из 800тыс имеют неактивную подписку
                 {
                     status = 2;
                     serviceId = rnd.Next(3, 6);
@@ -67,10 +68,10 @@ namespace DataRandom
 
                 DataRow dr = serviceToLead.NewRow();
 
-                dr["Id"] = serviceToLeadId + i;
+                dr["Id"] = i + 1;
                 dr["Period"] = period;
                 dr["Price"] = price;
-                dr["LeadId"] = LeadId + i;
+                dr["LeadId"] = rubAccounts[i].LeadId;
                 dr["ServiceId"] = serviceId;
                 dr["Status"] = status;
 
